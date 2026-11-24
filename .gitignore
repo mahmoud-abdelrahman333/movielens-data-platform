@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.Python
+.venv/
+venv/
+env/
+
+# Streamlit secrets
+.streamlit/secrets.toml
+**/.streamlit/secrets.toml
+
+# Environment variables and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# dbt generated files
+target/
+dbt_packages/
+logs/
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Spark / Java
+spark-warehouse/
+metastore_db/
+derby.log
+*.log
+
+# ML artifacts
+ml/als_model/
+
+# Testing
+.pytest_cache/
+.coverage
