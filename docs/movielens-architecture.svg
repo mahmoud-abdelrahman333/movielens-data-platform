@@ -1,0 +1,212 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1700 830" width="1700" height="830" role="img" aria-labelledby="t d" xmlns:c2pa="http://c2pa.org/manifest">
+  <title id="t">MovieLens Data Engineering Pipeline architecture</title>
+  <desc id="d">Left-to-right data flow: MovieLens 20M to Amazon S3 to Snowflake to dbt (Staging, Dimensions and Facts, Data Mart) to SQL Analytics and Streamlit Dashboard; Snowflake ratings to Apache Spark PySpark MLlib ALS to Snowflake Recommendation Table to Streamlit Recommendation Page with User ID to Top 10 recommendations.</desc>
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a1020"/>
+      <stop offset="0.55" stop-color="#101a30"/>
+      <stop offset="1" stop-color="#0b1222"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0.8" cy="0.2" r="0.5">
+      <stop offset="0" stop-color="#2dd4bf" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#2dd4bf" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowM" cx="0.7" cy="0.9" r="0.5">
+      <stop offset="0" stop-color="#a78bfa" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#a78bfa" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a2640"/>
+      <stop offset="1" stop-color="#131c31"/>
+    </linearGradient>
+
+    <marker id="aB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7aa2f7"/></marker>
+    <marker id="aT" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2dd4bf"/></marker>
+    <marker id="aV" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#a78bfa"/></marker>
+
+    <!-- Icons (centered at 0,0). Simplified marks; swap for official brand SVGs if desired. -->
+    <g id="icCsv">
+      <path d="M-26,-34 H10 L28,-16 V34 a4,4 0 0 1 -4,4 H-22 a4,4 0 0 1 -4,-4 Z" fill="#1e2a44" stroke="#8fb3ff" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M10,-34 V-20 a4,4 0 0 0 4,4 H28" fill="none" stroke="#8fb3ff" stroke-width="3" stroke-linejoin="round"/>
+      <rect x="-16" y="-4" width="32" height="10" fill="#8fb3ff"/>
+      <path d="M-16,-4 H16 V28 H-16 Z M-16,16 H16 M0,-4 V28" fill="none" stroke="#8fb3ff" stroke-width="2.5"/>
+    </g>
+    <g id="icS3">
+      <path d="M-30,-18 L-24,32 Q-23,39 -14,39 H14 Q23,39 24,32 L30,-18 Z" fill="#3f8624"/>
+      <path d="M-27,6 Q0,19 27,6" fill="none" stroke="#2c5f19" stroke-width="3"/>
+      <ellipse cx="0" cy="-18" rx="30" ry="10" fill="#7aa116"/>
+      <ellipse cx="0" cy="-18" rx="23" ry="6" fill="#2f6b1c"/>
+    </g>
+    <g id="icSnow" fill="none" stroke="#29b5e8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+      <g><path d="M0,-34 V34"/><path d="M-9,-24 L0,-16 L9,-24"/><path d="M-9,24 L0,16 L9,24"/></g>
+      <g transform="rotate(60)"><path d="M0,-34 V34"/><path d="M-9,-24 L0,-16 L9,-24"/><path d="M-9,24 L0,16 L9,24"/></g>
+      <g transform="rotate(120)"><path d="M0,-34 V34"/><path d="M-9,-24 L0,-16 L9,-24"/><path d="M-9,24 L0,16 L9,24"/></g>
+    </g>
+    <g id="icDbt">
+      <rect x="-32" y="-32" width="64" height="64" rx="16" fill="#ff694a"/>
+      <text x="0" y="9" text-anchor="middle" font-size="26" font-weight="800" fill="#ffffff" font-family="Inter,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">dbt</text>
+    </g>
+    <g id="icSql">
+      <path d="M-24,-20 V22 a24,9 0 0 0 48,0 V-20" fill="#1e2a44" stroke="#8fb3ff" stroke-width="3"/>
+      <path d="M-24,2 a24,9 0 0 0 48,0" fill="none" stroke="#8fb3ff" stroke-width="3"/>
+      <ellipse cx="0" cy="-20" rx="24" ry="9" fill="#2a3b61" stroke="#8fb3ff" stroke-width="3"/>
+    </g>
+    <g id="icStreamlit">
+      <polygon points="-36,0 0,-16 36,0 0,16" transform="translate(0,16)" fill="#7d353b"/>
+      <polygon points="-36,0 0,-16 36,0 0,16" transform="translate(0,3)" fill="#d63c45"/>
+      <polygon points="-27,0 0,-12 27,0 0,12" transform="translate(0,-11)" fill="#ff4b4b"/>
+    </g>
+    <g id="icSpark">
+      <polygon points="0,-34 8.2,-11.3 32.3,-10.5 13.3,4.3 20,27.5 0,14 -20,27.5 -13.3,4.3 -32.3,-10.5 -8.2,-11.3" fill="#e25a1c" stroke="#e25a1c" stroke-width="4" stroke-linejoin="round"/>
+    </g>
+  </defs>
+
+  <style>
+    text{font-family:Inter,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+    .h1{font-size:40px;font-weight:700;fill:#f1f5f9}
+    .sub{font-size:21px;fill:#94a3b8}
+    .n{font-size:20px;font-weight:700;fill:#f1f5f9;text-anchor:middle}
+    .s{font-size:17px;fill:#94a3b8;text-anchor:middle}
+    .big{font-size:26px;font-weight:700;fill:#f1f5f9}
+    .gray{font-size:18px;fill:#94a3b8}
+    .tag{font-size:16px;font-weight:700;letter-spacing:1.5px}
+    .bd{font-size:15px;font-weight:700;fill:#0b1222;text-anchor:middle}
+    .ln{font-size:20px;fill:#cbd5e1}
+  </style>
+
+  <!-- Background -->
+  <rect width="1700" height="830" fill="url(#bg)"/>
+  <rect width="1700" height="830" fill="url(#glowA)"/>
+  <rect width="1700" height="830" fill="url(#glowM)"/>
+
+  <!-- Title -->
+  <rect x="40" y="36" width="6" height="64" rx="3" fill="#7aa2f7"/>
+  <text x="62" y="70" class="h1">MovieLens Data Engineering Pipeline</text>
+  <text x="62" y="100" class="sub">End-to-end architecture: ingestion, transformation, analytics and ML recommendations</text>
+
+  <!-- Dashed: dashboard consumes transformed data from Snowflake -->
+  <path d="M555,216 V168 H1470 V191" fill="none" stroke="#2dd4bf" stroke-width="3" stroke-dasharray="9 7" stroke-linejoin="round" marker-end="url(#aT)"/>
+  <text x="1012" y="157" text-anchor="middle" class="gray" fill="#2dd4bf" style="fill:#2dd4bf">reads transformed data from Snowflake</text>
+
+  <!-- ============ TOP ROW: core pipeline ============ -->
+  <!-- 1 Source -->
+  <rect x="40" y="220" width="170" height="170" rx="18" fill="url(#card)" stroke="#2b3a5c" stroke-width="2"/>
+  <use href="#icCsv" transform="translate(125,282)"/>
+  <text x="125" y="346" class="n">MovieLens 20M</text>
+  <text x="125" y="371" class="s">Data Source</text>
+  <circle cx="62" cy="242" r="14" fill="#7aa2f7"/><text x="62" y="247.5" class="bd">1</text>
+
+  <!-- 2 S3 -->
+  <rect x="255" y="220" width="170" height="170" rx="18" fill="url(#card)" stroke="#2b3a5c" stroke-width="2"/>
+  <use href="#icS3" transform="translate(340,282)"/>
+  <text x="340" y="346" class="n">Amazon S3</text>
+  <text x="340" y="371" class="s">Raw Data Storage</text>
+  <circle cx="277" cy="242" r="14" fill="#7aa2f7"/><text x="277" y="247.5" class="bd">2</text>
+
+  <!-- 3 Snowflake -->
+  <rect x="470" y="220" width="170" height="170" rx="18" fill="url(#card)" stroke="#2b3a5c" stroke-width="2"/>
+  <use href="#icSnow" transform="translate(555,282)"/>
+  <text x="555" y="346" class="n">Snowflake</text>
+  <text x="555" y="371" class="s">Data Warehouse</text>
+  <circle cx="492" cy="242" r="14" fill="#7aa2f7"/><text x="492" y="247.5" class="bd">3</text>
+
+  <!-- 4 dbt panel -->
+  <rect x="685" y="195" width="550" height="220" rx="20" fill="#7aa2f7" fill-opacity="0.06" stroke="#4f6fb8" stroke-width="2"/>
+  <circle cx="712" cy="222" r="14" fill="#7aa2f7"/><text x="712" y="227.5" class="bd">4</text>
+  <use href="#icDbt" transform="translate(775,255) scale(0.62)"/>
+  <text x="805" y="253" class="big">dbt</text>
+  <text x="805" y="277" class="gray">Data Transformation</text>
+
+  <rect x="705" y="310" width="135" height="80" rx="14" fill="url(#card)" stroke="#2b3a5c" stroke-width="2"/>
+  <text x="772.500" y="357" class="n">Staging</text>
+  <rect x="885" y="310" width="135" height="80" rx="14" fill="url(#card)" stroke="#2b3a5c" stroke-width="2"/>
+  <text x="952.500" y="346" class="n">Dimensions</text>
+  <text x="952.500" y="369" class="n">&amp; Facts</text>
+  <rect x="1065" y="310" width="135" height="80" rx="14" fill="url(#card)" stroke="#2b3a5c" stroke-width="2"/>
+  <text x="1132.500" y="357" class="n">Data Mart</text>
+
+  <line x1="844" y1="350" x2="881" y2="350" stroke="#7aa2f7" stroke-width="4" marker-end="url(#aB)"/>
+  <line x1="1024" y1="350" x2="1061" y2="350" stroke="#7aa2f7" stroke-width="4" marker-end="url(#aB)"/>
+
+  <!-- 5 Analytics panel -->
+  <rect x="1280" y="195" width="380" height="220" rx="20" fill="#2dd4bf" fill-opacity="0.06" stroke="#1f9e8f" stroke-width="2"/>
+  <circle cx="1307" cy="222" r="14" fill="#2dd4bf"/><text x="1307" y="227.5" class="bd">5</text>
+  <text x="1332" y="228" class="tag" fill="#2dd4bf" style="fill:#2dd4bf">ANALYTICS PATH</text>
+
+  <rect x="1300" y="248" width="340" height="68" rx="14" fill="url(#card)" stroke="#2b3a5c" stroke-width="2"/>
+  <use href="#icSql" transform="translate(1340,282) scale(0.68)"/>
+  <text x="1385" y="278" style="font-size:22px;font-weight:700;fill:#f1f5f9">SQL Analytics</text>
+  <text x="1385" y="302" class="gray" style="font-size:17px">Queries on Data Mart</text>
+
+  <rect x="1300" y="330" width="340" height="68" rx="14" fill="url(#card)" stroke="#2b3a5c" stroke-width="2"/>
+  <use href="#icStreamlit" transform="translate(1340,364) scale(0.62)"/>
+  <text x="1385" y="360" style="font-size:22px;font-weight:700;fill:#f1f5f9">Streamlit Dashboard</text>
+  <text x="1385" y="384" class="gray" style="font-size:17px">Reads Snowflake marts</text>
+
+  <!-- Core arrows -->
+  <line x1="214" y1="305" x2="251" y2="305" stroke="#7aa2f7" stroke-width="4" marker-end="url(#aB)"/>
+  <line x1="429" y1="305" x2="466" y2="305" stroke="#7aa2f7" stroke-width="4" marker-end="url(#aB)"/>
+  <line x1="644" y1="305" x2="681" y2="305" stroke="#7aa2f7" stroke-width="4" marker-end="url(#aB)"/>
+  <line x1="1239" y1="305" x2="1276" y2="305" stroke="#2dd4bf" stroke-width="4" marker-end="url(#aT)"/>
+
+  <!-- Snowflake -> ML path -->
+  <line x1="555" y1="394" x2="555" y2="496" stroke="#a78bfa" stroke-width="4" marker-end="url(#aV)"/>
+  <text x="575" y="452" class="gray" style="fill:#a78bfa">ratings</text>
+
+  <!-- ============ BOTTOM ROW: ML path ============ -->
+  <!-- Legend -->
+  <rect x="40" y="560" width="380" height="170" rx="18" fill="url(#card)" stroke="#2b3a5c" stroke-width="2"/>
+  <text x="64" y="597" class="tag" fill="#94a3b8" style="fill:#94a3b8">LEGEND</text>
+  <line x1="64" y1="632" x2="124" y2="632" stroke="#7aa2f7" stroke-width="4" marker-end="url(#aB)"/>
+  <text x="144" y="639" class="ln">Core pipeline</text>
+  <line x1="64" y1="672" x2="124" y2="672" stroke="#2dd4bf" stroke-width="4" marker-end="url(#aT)"/>
+  <text x="144" y="679" class="ln">Analytics path</text>
+  <line x1="64" y1="712" x2="124" y2="712" stroke="#a78bfa" stroke-width="4" marker-end="url(#aV)"/>
+  <text x="144" y="719" class="ln">Machine learning path</text>
+
+  <!-- 6 Spark panel -->
+  <rect x="470" y="500" width="550" height="305" rx="20" fill="#a78bfa" fill-opacity="0.06" stroke="#7c5fd6" stroke-width="2"/>
+  <circle cx="497" cy="527" r="14" fill="#a78bfa"/><text x="497" y="532.500" class="bd">6</text>
+  <text x="522" y="533" class="tag" fill="#a78bfa" style="fill:#a78bfa">MACHINE LEARNING PATH</text>
+  <use href="#icSpark" transform="translate(520,598) scale(0.62)"/>
+  <text x="552" y="595" class="big">Apache Spark</text>
+  <text x="552" y="620" class="gray">PySpark MLlib · ALS Collaborative Filtering</text>
+
+  <rect x="490" y="665" width="140" height="110" rx="14" fill="url(#card)" stroke="#2b3a5c" stroke-width="2"/>
+  <text x="560" y="716" class="n">Ratings</text>
+  <text x="560" y="742" class="s">MovieLens 20M</text>
+  <rect x="675" y="665" width="140" height="110" rx="14" fill="url(#card)" stroke="#2b3a5c" stroke-width="2"/>
+  <text x="745" y="716" class="n">Train ALS</text>
+  <text x="745" y="742" class="s">MLlib model</text>
+  <rect x="860" y="665" width="140" height="110" rx="14" fill="url(#card)" stroke="#2b3a5c" stroke-width="2"/>
+  <text x="930" y="716" class="n">Recommend</text>
+  <text x="930" y="742" class="s">for each user</text>
+
+  <line x1="634" y1="720" x2="671" y2="720" stroke="#a78bfa" stroke-width="4" marker-end="url(#aV)"/>
+  <line x1="819" y1="720" x2="856" y2="720" stroke="#a78bfa" stroke-width="4" marker-end="url(#aV)"/>
+
+  <!-- 7 Recommendation output panel -->
+  <rect x="1080" y="500" width="580" height="305" rx="20" fill="#a78bfa" fill-opacity="0.06" stroke="#7c5fd6" stroke-width="2"/>
+  <circle cx="1107" cy="527" r="14" fill="#a78bfa"/><text x="1107" y="532.500" class="bd">7</text>
+  <text x="1132" y="533" class="tag" fill="#a78bfa" style="fill:#a78bfa">RECOMMENDATION OUTPUT</text>
+
+  <rect x="1100" y="600" width="230" height="170" rx="16" fill="url(#card)" stroke="#2b3a5c" stroke-width="2"/>
+  <use href="#icSnow" transform="translate(1215,645) scale(0.62)"/>
+  <text x="1215" y="705" class="n">Snowflake</text>
+  <text x="1215" y="730" class="s">Recommendation Table</text>
+
+  <rect x="1385" y="555" width="255" height="230" rx="16" fill="url(#card)" stroke="#2b3a5c" stroke-width="2"/>
+  <use href="#icStreamlit" transform="translate(1512,592) scale(0.55)"/>
+  <text x="1512" y="637" class="n">Streamlit</text>
+  <text x="1512" y="659" class="s">Recommendation Page</text>
+  <rect x="1403" y="670" width="219" height="30" rx="15" fill="#0f1a30" stroke="#a78bfa" stroke-width="2"/>
+  <text x="1512" y="691" class="n" style="font-size:17px">User ID</text>
+  <line x1="1512" y1="704" x2="1512" y2="722" stroke="#a78bfa" stroke-width="3" marker-end="url(#aV)"/>
+  <rect x="1403" y="728" width="219" height="48" rx="10" fill="#a78bfa" fill-opacity="0.18" stroke="#a78bfa" stroke-width="2"/>
+  <text x="1512" y="748" class="n" style="font-size:17px">Top 10 Movie</text>
+  <text x="1512" y="767" class="n" style="font-size:17px">Recommendations</text>
+
+  <line x1="1004" y1="720" x2="1096" y2="720" stroke="#a78bfa" stroke-width="4" marker-end="url(#aV)"/>
+  <line x1="1334" y1="685" x2="1381" y2="685" stroke="#a78bfa" stroke-width="4" marker-end="url(#aV)"/>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTpmYjhkYTQ5ZC01Yzg5LTQxNzQtYTlhMi1iZWM5MWZmNGNkZjQAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaIOqyLWcgdDD9XtmiXtl7N0AAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDo0M2Y5MjZlOS0zMDA1LTRhM2YtOGJjZC00NTMwZTA2ZGNjNTVscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNo/3gu0jjnK+Pz/hCrfwx24QAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggH3IkceMQJAxdFpQ317wmeYat1jsEM/258usHcYZViPWkZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaH6PBXRAcD3LDXR3IrhYZqcAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIFF8zVJ6GHgC2+Ofy6mjviWpiiJpTaPsUxibMwzMoZq5ZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GTY1Zmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOmZiOGRhNDlkLTVjODktNDE3NC1hOWEyLWJlYzkxZmY0Y2RmNC9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmE3MmQzZWVhLWVkMjgtNDcyNy1iOGE0LTE0ZWIwMThjZDIwYXJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCAfciRx4xAkDF0WlDfXvCZ5hq3WOwQz/bny6wdxhlWI9aJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggOiFScsfwZn06HltQ4LT/rh17w/pkkvaAVMfRtBRbXX6iY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFgg3/QKYpigjd/UvZs/l0LvGEoqcJFHW49HwnvZZZ81GAZ0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQC8xz6geKkcHQgDtP81IXaiDKu8A1cdPrjGp9Q8cVR7I5TviYfVq2AHHgVZ/GeAxIjHPPdh2Totua5xZaAh8DwY=</c2pa:manifest></metadata></svg>
